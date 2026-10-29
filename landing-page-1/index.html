@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Naaval Sunshine | Premium 3 BHK Villas in Salem</title>
+  <meta name="description" content="Discover Premium 3 BHK Villas in Salem, Surrounded by Nature. Naaval Sunshine — group community villas on Siddhar Kovil Road, Salem, starting from ₹1.4 Cr*.">
+  <meta name="theme-color" content="#0f1733">
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" data-header>
+    <div class="container header__inner">
+      <a href="#top" class="header__logo" aria-label="Naaval Properties — back to top">
+        <img src="assets/images/logo-naaval-white.png" alt="Naaval Properties" class="logo-light" width="1632" height="496">
+        <img src="assets/images/logo-naaval.png" alt="" class="logo-dark" width="1632" height="496">
+      </a>
+      <nav class="nav" data-nav aria-label="Main">
+        <a href="#about">About</a>
+        <a href="#why">Why Sunshine</a>
+        <a href="#lifestyle">Lifestyle</a>
+        <a href="#amenities">Amenities</a>
+        <a href="#visit">Contact</a>
+        <a href="tel:+919585521999" class="nav__phone"><i data-lucide="phone"></i>+91 95855 21999</a>
+      </nav>
+      <a href="#visit" class="btn btn--sky header__cta">Book Site Visit</a>
+      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-label="Menu"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- SECTION 1 + 2 — Hero with lead form -->
+    <section class="hero">
+      <div class="media hero__media" data-label="hero.mp4 + hero-poster.jpg — drone / walkthrough of the villas">
+        <img src="assets/images/hero-poster.jpg" alt="">
+        <video autoplay muted loop playsinline preload="metadata" poster="assets/images/hero-poster.jpg">
+          <source src="assets/videos/hero.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="hero__shade"></div>
+
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <p class="eyebrow eyebrow--light" data-reveal>Naaval Sunshine | Group Community Villas</p>
+          <h1 data-reveal style="--d:1">A Better View.<br> A Better Way to Live.</h1>
+          <p class="hero__sub" data-reveal style="--d:2">Discover Premium 3 BHK Villas in Salem, Surrounded by Nature.</p>
+          <div class="hero__text" data-reveal style="--d:3">
+            <p>Imagine waking up to beautiful hill views, peaceful surroundings, and a community designed around your family's lifestyle.</p>
+            <p>Welcome to Naaval Sunshine, where contemporary villas, thoughtfully planned amenities, and the beauty of nature come together to make everyday living extraordinary.</p>
+          </div>
+          <div class="hero__actions" data-reveal style="--d:4">
+            <a href="#visit" class="btn btn--sky">Book Your Site Visit</a>
+            <a href="assets/docs/brochure.pdf" class="btn btn--ghost" data-gate="brochure" data-gate-title="Download Brochure" download><i data-lucide="download"></i>Download Brochure</a>
+          </div>
+        </div>
+
+        <div class="hero__form" data-reveal style="--d:2">
+          <div class="formcard formcard--glass">
+            <h2 class="formcard__title">Experience Sunshine in Person.</h2>
+            <p class="formcard__text">Take the first step towards your dream villa. Schedule a personalised site visit and explore the community, villa layouts, and lifestyle amenities.</p>
+            <form data-lead-form="hero">
+              <div class="field">
+                <label for="h-name">Your Name</label>
+                <input id="h-name" name="name" type="text" autocomplete="name" required>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="h-mobile">Mobile Number</label>
+                  <input id="h-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required>
+                </div>
+                <div class="field">
+                  <label for="h-email">Email</label>
+                  <input id="h-email" name="email" type="email" autocomplete="email">
+                </div>
+              </div>
+              <div class="field">
+                <label for="h-date">Preferred Site Visit Date</label>
+                <input id="h-date" name="visitDate" type="date" required>
+              </div>
+              <button type="submit" class="btn btn--sky btn--block">Schedule My Site Visit</button>
+              <p class="formcard__note">Our team will contact you to confirm your visit.</p>
+              <p class="form-status" data-status role="alert"></p>
+              <div class="form-success" data-success hidden tabindex="-1">
+                <i data-lucide="check"></i>
+                <p>Thank you for your interest in Naaval Sunshine! Our team will contact you to confirm your site visit.</p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <ul class="hero__highlights" id="highlights">
+          <li><i data-lucide="mountain"></i><span><strong>3 BHK</strong> Hill view Villas</span></li>
+          <li><i data-lucide="map-pin"></i><span>Siddhar Kovil Road, Salem</span></li>
+          <li><i data-lucide="gem"></i><span>Starting from <strong>₹1.4 Cr*</strong></span></li>
+          <li><i data-lucide="trees"></i><span><strong>4.25-Acre</strong> Community</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SECTION 3 — Introduction -->
+    <section class="section intro" id="about">
+      <div class="container intro__grid">
+        <div class="intro__visual" data-reveal>
+          <div class="media intro__media" data-label="intro.jpg — villa exterior / community view">
+            <img src="assets/images/intro.jpg" alt="Naaval Sunshine villas at Siddhar Kovil Road, Salem" loading="lazy">
+          </div>
+          <div class="intro__badge">
+            <span class="intro__badge-num">4.25</span>
+            <span>Acre Community</span>
+          </div>
+        </div>
+        <div class="intro__copy">
+          <p class="eyebrow" data-reveal>Welcome to Naaval Sunshine</p>
+          <h2 class="h2" data-reveal style="--d:1">Don't Just Buy a Villa. Discover a Better Lifestyle.</h2>
+          <div class="prose" data-reveal style="--d:2">
+            <p>A home should offer more than beautiful interiors. It should provide space for your family, comfort in everyday living, and a community where you truly belong.</p>
+            <p>Nestled in the scenic surroundings of Siddhar Kovil Road, Salem, Naaval Sunshine brings together thoughtfully designed villas, premium lifestyle amenities, and a peaceful living environment.</p>
+            <p>Experience the perfect balance of modern comforts and nature-inspired living, thoughtfully developed by Naaval Properties.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4 — Why choose -->
+    <section class="section section--dark why" id="why">
+      <div class="container">
+        <header class="section-head section-head--center">
+          <p class="eyebrow eyebrow--light" data-reveal>Why Choose Us</p>
+          <h2 class="h2" data-reveal style="--d:1">Everything You Want in a Home. All in One Community.</h2>
+        </header>
+
+        <div class="why__grid">
+          <article class="why-card" data-reveal>
+            <div class="media why-card__media" data-label="why-hill-view.jpg"><img src="assets/images/why-hill-view.jpg" alt="Hill views from Naaval Sunshine" loading="lazy"></div>
+            <div class="why-card__body">
+              <span class="why-card__num">01</span>
+              <h3>Beautiful Hill Views</h3>
+              <p>Wake up to scenic surroundings and enjoy the calm of nature, away from the everyday rush of city life.</p>
+            </div>
+          </article>
+          <article class="why-card" data-reveal style="--d:1">
+            <div class="media why-card__media" data-label="why-villa.jpg"><img src="assets/images/why-villa.jpg" alt="Spacious 3 BHK villa interiors" loading="lazy"></div>
+            <div class="why-card__body">
+              <span class="why-card__num">02</span>
+              <h3>Spacious Villa Living</h3>
+              <p>Enjoy thoughtfully planned 3 BHK villas with comfortable living spaces, contemporary architecture, and room for your family to grow.</p>
+            </div>
+          </article>
+          <article class="why-card" data-reveal style="--d:2">
+            <div class="media why-card__media" data-label="why-amenities.jpg"><img src="assets/images/why-amenities.jpg" alt="Lifestyle amenities at Naaval Sunshine" loading="lazy"></div>
+            <div class="why-card__body">
+              <span class="why-card__num">03</span>
+              <h3>Lifestyle Amenities</h3>
+              <p>From fitness and recreation to relaxation and family time, discover amenities designed to make every day more enjoyable.</p>
+            </div>
+          </article>
+          <article class="why-card" data-reveal>
+            <div class="media why-card__media" data-label="why-security.jpg"><img src="assets/images/why-security.jpg" alt="Gated community with compound walls" loading="lazy"></div>
+            <div class="why-card__body">
+              <span class="why-card__num">04</span>
+              <h3>Group Community with Security</h3>
+              <p>Experience greater peace of mind with 24-hour security arrangements, CCTV surveillance, and compound walls.</p>
+            </div>
+          </article>
+          <article class="why-card" data-reveal style="--d:1">
+            <div class="media why-card__media" data-label="why-trust.jpg"><img src="assets/images/why-trust.jpg" alt="A completed Naaval Properties project" loading="lazy"></div>
+            <div class="why-card__body">
+              <span class="why-card__num">05</span>
+              <h3>15+ Years of Trust</h3>
+              <p>Developed by Naaval Properties, bringing over 15 years of real estate experience, construction expertise, and commitment to quality living in Salem.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5 — Designed for your lifestyle -->
+    <section class="section section--mist lifestyle" id="lifestyle">
+      <div class="container">
+        <header class="section-head section-head--center">
+          <p class="eyebrow" data-reveal>A Community That Understands You</p>
+          <h2 class="h2" data-reveal style="--d:1">A Home That Matches the Life You've Built.</h2>
+        </header>
+
+        <div class="lifestyle__grid">
+          <article class="life-card" data-reveal>
+            <div class="media life-card__media" data-label="life-business.jpg"><img src="assets/images/life-business.jpg" alt="" loading="lazy"></div>
+            <div class="life-card__body">
+              <p class="life-card__for"><i data-lucide="briefcase"></i>For Business Owners</p>
+              <h3>Your Success Deserves a Peaceful Address.</h3>
+              <p>After a busy day managing your business, return to a home surrounded by nature, with the privacy, comfort, and space your family deserves.</p>
+            </div>
+          </article>
+          <article class="life-card" data-reveal style="--d:1">
+            <div class="media life-card__media" data-label="life-professionals.jpg"><img src="assets/images/life-professionals.jpg" alt="" loading="lazy"></div>
+            <div class="life-card__body">
+              <p class="life-card__for"><i data-lucide="laptop"></i>For Professionals</p>
+              <h3>A Better Work-Life Balance Begins at Home.</h3>
+              <p>From demanding workdays to peaceful evenings, enjoy a thoughtfully planned community where you can unwind, reconnect, and make time for what matters.</p>
+            </div>
+          </article>
+          <article class="life-card" data-reveal style="--d:2">
+            <div class="media life-card__media" data-label="life-families.jpg"><img src="assets/images/life-families.jpg" alt="" loading="lazy"></div>
+            <div class="life-card__body">
+              <p class="life-card__for"><i data-lucide="users"></i>For Growing Families</p>
+              <h3>More Space to Grow. More Moments Together.</h3>
+              <p>Give your family a lifestyle filled with comfort, recreation, and togetherness, with dedicated play areas, community spaces, and activities for every generation.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8 — Amenities (fixed background) -->
+    <section class="section amenities" id="amenities">
+      <div class="media amenities__bg" data-label="amenities-bg.jpg — wide aerial / clubhouse view">
+        <img src="assets/images/amenities-bg.jpg" alt="" loading="lazy">
+      </div>
+      <div class="amenities__shade"></div>
+      <div class="container amenities__inner">
+        <header class="section-head amenities__head">
+          <div>
+            <p class="eyebrow eyebrow--light" data-reveal>Lifestyle Amenities</p>
+            <h2 class="h2" data-reveal style="--d:1">A Community Where Every Day Has More to Offer.</h2>
+          </div>
+          <p class="amenities__desc" data-reveal style="--d:2">Whether it's staying active, spending quality time with family, or simply unwinding after a busy day, Naaval Sunshine brings a variety of lifestyle experiences closer to home.</p>
+        </header>
+
+        <ul class="amenity-grid" data-reveal>
+          <li><i data-lucide="building-2"></i>Clubhouse &amp; Community Hall</li>
+          <li><i data-lucide="dumbbell"></i>Gymnasium</li>
+          <li><i data-lucide="circle-dot"></i>Pickle Ball Court</li>
+          <li><i data-lucide="blocks"></i>Indoor Play Area</li>
+          <li><i data-lucide="trees"></i>Elders' Park</li>
+          <li><i data-lucide="library"></i>Library</li>
+          <li><i data-lucide="clapperboard"></i>Mini Theatre</li>
+          <li><i data-lucide="person-standing"></i>Yoga &amp; Aerobics Area</li>
+          <li><i data-lucide="toy-brick"></i>Children's Play Area</li>
+          <li><i data-lucide="shield-check"></i>24-Hour Security</li>
+        </ul>
+
+        <p class="amenities__line" data-reveal>More Than a Home. A Complete Community Lifestyle.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 9 + 10 — Final conversion + form -->
+    <section class="section final" id="visit">
+      <div class="container final__grid">
+        <div class="final__copy">
+          <p class="eyebrow" data-reveal>Your Next Chapter Begins Here</p>
+          <h2 class="h2" data-reveal style="--d:1">Your Dream Villa Is Worth Experiencing in Person.</h2>
+          <div class="prose" data-reveal style="--d:2">
+            <p>You've imagined your dream home. Now it's time to experience what living there could feel like.</p>
+            <p>Explore the spacious villas, scenic surroundings, and thoughtfully planned amenities at Naaval Sunshine.</p>
+            <p>Discover a community where your family's comfort, privacy, and everyday happiness come together.</p>
+          </div>
+          <p class="final__highlight" data-reveal style="--d:3">Premium 3 &amp; 4 BHK Villas <span>|</span> Siddhar Kovil Road, Salem</p>
+          <div class="final__actions" data-reveal style="--d:4">
+            <a href="#final-form" class="btn btn--navy">Book Your Private Villa Tour</a>
+            <a href="assets/docs/floor-plans.pdf" class="btn btn--outline" data-gate="floorplans" data-gate-title="Request Floor Plans" download>Request Floor Plans</a>
+          </div>
+        </div>
+
+        <div class="final__form" id="final-form" data-reveal style="--d:2">
+          <div class="formcard">
+            <h2 class="formcard__title">Come See What Makes Sunshine Special.</h2>
+            <p class="formcard__text">Schedule your site visit and let our team help you explore the right villa for your family.</p>
+            <form data-lead-form="final">
+              <div class="field">
+                <label for="f-name">Full Name</label>
+                <input id="f-name" name="name" type="text" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="f-mobile">Mobile Number</label>
+                <input id="f-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required>
+              </div>
+              <div class="field">
+                <label for="f-pref">Villa Preference</label>
+                <select id="f-pref" name="villaPreference" required>
+                  <option value="" selected disabled>Select</option>
+                  <option>3 BHK Villa</option>
+                  <option>4 BHK Villa</option>
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-date">Preferred Visit Date</label>
+                <input id="f-date" name="visitDate" type="date" required>
+              </div>
+              <button type="submit" class="btn btn--sky btn--block">Book My Site Visit</button>
+              <p class="form-status" data-status role="alert"></p>
+              <div class="form-success" data-success hidden tabindex="-1">
+                <i data-lucide="check"></i>
+                <p>Thank you for your interest in Naaval Sunshine! Our team will contact you to confirm your site visit.</p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- SECTION 11 — Footer -->
+  <footer class="footer">
+    <a href="#visit" class="footer__cta">
+      <span class="container">Your Dream Home Awaits. Book Your Site Visit Today. <i data-lucide="arrow-right"></i></span>
+    </a>
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <img src="assets/images/logo-naaval-white.png" alt="Naaval Properties" width="1632" height="496">
+        <p class="footer__tag">Building Better Communities.</p>
+        <p>Discover premium residential spaces thoughtfully designed for quality living, lasting comfort, and meaningful family experiences.</p>
+      </div>
+      <div>
+        <h3>Project Location</h3>
+        <p><strong>Naaval Sunshine</strong><br>Siddhar Kovil Road, Salem, Tamil Nadu.</p>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p><a href="tel:+919585521999">+91 95855 21999</a></p>
+        <h3>Email</h3>
+        <p><a href="mailto:sales@naaval.in">sales@naaval.in</a></p>
+      </div>
+      <div>
+        <h3>Quick Links</h3>
+        <ul class="footer__links">
+          <li><a href="#about">About Naaval</a></li>
+          <li><a href="#highlights">Project Highlights</a></li>
+          <li><a href="#amenities">Amenities</a></li>
+          <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Siddhar+Kovil+Road%2C+Salem%2C+Tamil+Nadu" target="_blank" rel="noopener">Location</a></li>
+          <li><a href="#visit">Book Site Visit</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <p>&copy; <span data-year>2026</span> Naaval Properties. All rights reserved.</p>
+      <p>*Prices and specifications are indicative and subject to change.</p>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp (desktop) + action bar (mobile) -->
+  <a class="wa-float" href="https://wa.me/919585521999?text=Hi%2C%20I%27m%20interested%20in%20Naaval%20Sunshine%20villas." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  </a>
+  <nav class="mobile-bar" aria-label="Quick actions">
+    <a href="tel:+919585521999"><i data-lucide="phone"></i>Call</a>
+    <a href="https://wa.me/919585521999?text=Hi%2C%20I%27m%20interested%20in%20Naaval%20Sunshine%20villas." target="_blank" rel="noopener"><i data-lucide="message-circle"></i>WhatsApp</a>
+    <a href="#final-form" class="mobile-bar__main">Book Site Visit</a>
+  </nav>
+
+  <!-- Brochure / floor plan request -->
+  <dialog class="gate" id="gate" aria-labelledby="gate-title">
+    <form method="dialog"><button class="gate__close" aria-label="Close"><i data-lucide="x"></i></button></form>
+    <h2 class="formcard__title" id="gate-title" data-gate-title>Download Brochure</h2>
+    <form data-lead-form="download">
+      <input type="hidden" name="interest" value="brochure">
+      <div class="field">
+        <label for="g-name">Your Name</label>
+        <input id="g-name" name="name" type="text" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="g-mobile">Mobile Number</label>
+        <input id="g-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required>
+      </div>
+      <button type="submit" class="btn btn--sky btn--block"><i data-lucide="download"></i>Download</button>
+      <p class="form-status" data-status role="alert"></p>
+      <div class="form-success" data-success hidden tabindex="-1">
+        <i data-lucide="check"></i>
+        <p>Thank you for your interest in Naaval Sunshine! Your download will begin shortly.</p>
+      </div>
+    </form>
+  </dialog>
+
+</body>
+</html>
