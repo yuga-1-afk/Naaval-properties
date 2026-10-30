@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cost Calculator | Naaval Sunshine</title>
-  <meta name="description" content="Estimate the total cost of your Naaval Sunshine villa on Siddhar Kovil Road, Salem — villa price plus stamp duty and registration charges.">
+  <title>Villa ROI Calculator | Naaval Sunshine</title>
+  <meta name="description" content="Estimate the return on a Naaval Sunshine villa in Salem — land appreciation, villa appreciation, rental income and running costs over your holding period.">
   <meta name="theme-color" content="#182654">
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,30 +31,90 @@
         <img src="assets/images/calculator-bg.jpg" alt="">
       </div>
       <div class="container">
-        <div class="calc" data-calc>
-          <h1 class="calc__title">Cost Calculator</h1>
-          <div class="calc__field">
-            <label for="c-city">Select your city:</label>
-            <select id="c-city" data-calc-step="city"></select>
+        <header class="calc-page__head">
+          <h1>Villa ROI Calculator</h1>
+          <p>See how your Naaval Sunshine villa could grow in value from land appreciation, villa appreciation and rental income.</p>
+        </header>
+
+        <div class="roi" data-calc>
+          <!-- Inputs -->
+          <div class="card roi__inputs">
+            <h2 class="card__title">Your villa</h2>
+            <div class="calc__field">
+              <label for="c-city">Select your city:</label>
+              <select id="c-city" data-calc-step="city"></select>
+            </div>
+            <div class="calc__field">
+              <label for="c-area">Select your city area:</label>
+              <select id="c-area" data-calc-step="area"></select>
+            </div>
+            <div class="calc__field">
+              <label for="c-project">Select Project:</label>
+              <select id="c-project" data-calc-step="project"></select>
+            </div>
+            <div class="calc__field">
+              <label for="c-config">Villa Configuration:</label>
+              <select id="c-config" data-calc-step="config"></select>
+            </div>
+
+            <div class="slider slider--hero">
+              <label for="r-years">Hold duration <output data-roi-show="years"></output></label>
+              <input id="r-years" type="range" min="1" max="25" step="1" data-roi-input="years" data-suffix=" years">
+              <div class="slider__scale" aria-hidden="true"><span>1 yr</span><span>25 yrs</span></div>
+            </div>
           </div>
-          <div class="calc__field">
-            <label for="c-area">Select your city area:</label>
-            <select id="c-area" data-calc-step="area"></select>
+
+          <!-- Results -->
+          <div class="card roi__results" data-roi-results aria-live="polite">
+            <p class="calc__none" data-calc-none hidden>There is no Naaval project in this location yet. Our nearest is <strong>Naaval Sunshine, Siddhar Kovil Road, Salem</strong>. <a href="tel:+919585521999">Call +91 95855 21999</a></p>
+
+            <div class="hero-stat">
+              <p class="hero-stat__label">Estimated property value in <span data-roi-out="years">10</span> years</p>
+              <p class="hero-stat__value" data-roi-out="future">—</p>
+              <p class="hero-stat__sub">from a total investment of <span data-roi-out="invest">—</span></p>
+            </div>
+
+            <div class="tiles">
+              <div class="tile"><p class="tile__label">Net profit</p><p class="tile__value" data-roi-out="net">—</p></div>
+              <div class="tile"><p class="tile__label">Total ROI</p><p class="tile__value" data-roi-out="roi">—</p></div>
+              <div class="tile"><p class="tile__label">Annualised return</p><p class="tile__value" data-roi-out="annual">—</p></div>
+            </div>
+
+            <div class="chart">
+              <div class="chart__head">
+                <h2 class="card__title">Property value by year</h2>
+                <ul class="legend">
+                  <li><i class="sw sw--land"></i>Land</li>
+                  <li><i class="sw sw--villa"></i>Villa</li>
+                  <li><i class="sw sw--line"></i>Total investment</li>
+                </ul>
+              </div>
+              <div class="chart__plot" data-roi-chart></div>
+              <details class="chart__table">
+                <summary>View year-by-year table</summary>
+                <table>
+                  <thead><tr><th>Year</th><th>Land</th><th>Villa</th><th>Property value</th></tr></thead>
+                  <tbody data-roi-table></tbody>
+                </table>
+              </details>
+            </div>
+
+            <dl class="breakdown">
+              <div><dt>Villa price</dt><dd data-roi-out="price">—</dd></div>
+              <div><dt>Stamp duty (<span data-roi-out="stampPct">7%</span>)</dt><dd data-roi-out="stamp">—</dd></div>
+              <div><dt>Registration fee (<span data-roi-out="regPct">2%</span>)</dt><dd data-roi-out="reg">—</dd></div>
+              <div class="is-strong"><dt>Total investment</dt><dd data-roi-out="investFull">—</dd></div>
+              <div><dt>Land value</dt><dd><span data-roi-out="landNow">—</span> → <span data-roi-out="landFuture">—</span></dd></div>
+              <div><dt>Villa value</dt><dd><span data-roi-out="villaNow">—</span> → <span data-roi-out="villaFuture">—</span></dd></div>
+              <div><dt>Capital gain</dt><dd data-roi-out="gain">—</dd></div>
+              <div><dt>Rental income (total)</dt><dd data-roi-out="rentTotal">—</dd></div>
+              <div><dt>Maintenance (total)</dt><dd data-roi-out="maintTotal">—</dd></div>
+              <div class="is-strong is-accent"><dt>Net profit</dt><dd data-roi-out="netFull">—</dd></div>
+            </dl>
+
+            <p class="calc__note"><strong>Based on:</strong> <span data-roi-out="assumptions">—</span></p>
+            <p class="calc__note"><strong>Disclaimer:</strong> Projections are illustrative and based on the assumptions above. Property values can go down as well as up. This is not financial advice. Final prices and charges will be shared by our sales team.</p>
           </div>
-          <div class="calc__field">
-            <label for="c-project">Select Project:</label>
-            <select id="c-project" data-calc-step="project"></select>
-          </div>
-          <div class="calc__field">
-            <label for="c-config">Villa Configuration:</label>
-            <select id="c-config" data-calc-step="config"></select>
-          </div>
-          <div class="calc__result" aria-live="polite">
-            <p class="calc__label">Estimated Total Cost</p>
-            <p class="calc__total" data-calc-total>00,00,000</p>
-            <dl class="calc__breakdown" data-calc-breakdown hidden></dl>
-          </div>
-          <p class="calc__note"><strong>Disclaimer:</strong> Charges shown are indicative. Final costs will be shared by our sales team.</p>
         </div>
       </div>
     </section>

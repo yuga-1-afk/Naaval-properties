@@ -1,6 +1,6 @@
 /* =================================================================
-   Naaval Sunshine — Landing Page 4 · Cost Calculator
-   Single-purpose page: centred calculator card over a project image.
+   Naaval Sunshine — Landing Page 4 · Villa ROI Calculator
+   Inputs card + results card over a project image.
    ================================================================= */
 
 :root {
@@ -10,9 +10,14 @@
   --navy: #22346f;
   --navy-2: #182654;
   --ink: #1d2333;
-  --muted: #646b7a;
-  --line: #e4ddd0;
+  --ink-2: #4a5160;
+  --muted: #6b7180;
+  --line: #e7e2d8;
   --white: #fff;
+  --land: #3d5fc0;
+  --villa: #c98418;
+  --good: #1f7a4d;
+  --bad: #b3261e;
 
   --serif: "DM Serif Display", Georgia, serif;
   --sans: "DM Sans", system-ui, sans-serif;
@@ -24,17 +29,17 @@ body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; font
 img, svg { display: block; max-width: 100%; }
 [hidden] { display: none !important; }
 a { color: inherit; text-decoration: none; }
-h1, p, dl, dd { margin: 0; }
-select { font: inherit; color: inherit; }
+h1, h2, p, dl, dd { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+select, input { font: inherit; color: inherit; }
 
-.container { width: min(1180px, 100% - 48px); margin-inline: auto; }
+.container { width: min(1200px, 100% - 48px); margin-inline: auto; }
 
 /* ---------- Media placeholder ---------- */
 .media { position: relative; overflow: hidden; background: var(--navy-2); }
 .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .media.is-empty { background: linear-gradient(140deg, #22346f, #182654); }
 .media.is-empty img { visibility: hidden; }
-.media.is-empty::after { content: attr(data-label); position: absolute; left: 18px; top: 16px; font: 600 .66rem/1.4 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: rgba(255, 255, 255, .5); }
 
 /* ---------- Header ---------- */
 .header { background: var(--white); border-bottom: 1px solid var(--line); }
@@ -44,42 +49,110 @@ select { font: inherit; color: inherit; }
 .header__call:hover { background: #f3b553; }
 .header__call svg { width: 17px; height: 17px; }
 
-/* ---------- Calculator page ---------- */
-.calc-page { position: relative; isolation: isolate; flex: 1; padding: clamp(40px, 7vw, 80px) 0; }
-.calc-page__bg { position: absolute; inset: 0; z-index: -2; }
-.calc-page::after { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(16, 24, 52, .55); }
+/* ---------- Page ---------- */
+.calc-page { position: relative; isolation: isolate; flex: 1; padding: clamp(36px, 6vw, 72px) 0; }
+.calc-page__bg { position: absolute; inset: 0 0 auto; height: 520px; z-index: -2; }
+.calc-page::before { content: ""; position: absolute; inset: 0 0 auto; height: 520px; z-index: -1; background: linear-gradient(180deg, rgba(16, 24, 52, .72) 0%, rgba(16, 24, 52, .6) 70%, var(--cream) 100%); }
+.calc-page__head { text-align: center; color: var(--white); margin-bottom: 32px; }
+.calc-page__head h1 { font: 400 clamp(2rem, 1.4rem + 2vw, 2.9rem)/1.1 var(--serif); margin-bottom: 10px; }
+.calc-page__head p { color: rgba(255, 255, 255, .85); max-width: 56ch; margin: 0 auto; }
 
-.calc {
-  width: min(600px, 100%); margin: 0 auto;
-  background: var(--white); border-radius: 12px; padding: 30px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, .08), 0 40px 80px -40px rgba(0, 0, 0, .55);
+.roi { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 24px; align-items: start; }
+.card { background: var(--white); border-radius: 14px; padding: 28px; box-shadow: 0 5px 20px rgba(0, 0, 0, .06), 0 30px 60px -36px rgba(0, 0, 0, .45); }
+.card__title { font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--navy); margin-bottom: 16px; }
+.card__title--gap { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+
+/* ---------- Inputs ---------- */
+.calc__field { margin-bottom: 16px; }
+.calc__field label { display: block; font-size: .9rem; font-weight: 500; margin-bottom: 6px; }
+.calc__field select, .calc__field input {
+  width: 100%; height: 48px; padding: 0 14px;
+  border: 1px solid #d7d2c6; border-radius: 10px; outline: none; background: var(--white);
+  font-size: .95rem; transition: border-color .2s, box-shadow .2s;
 }
-.calc__title { font: 400 2rem/1.15 var(--serif); color: var(--navy-2); text-align: center; margin-bottom: 22px; }
-.calc__field { margin-bottom: 20px; }
-.calc__field label { display: block; font-size: .95rem; font-weight: 500; margin-bottom: 7px; }
 .calc__field select {
-  width: 100%; height: 50px; padding: 0 40px 0 16px;
-  border: 1px solid #d7d2c6; border-radius: 10px; outline: none; cursor: pointer;
-  background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2322346f' stroke-width='1.6'%3E%3Cpath d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E") no-repeat right 16px center;
-  font-size: .95rem; appearance: none; -webkit-appearance: none; transition: border-color .2s, box-shadow .2s;
+  padding-right: 40px; cursor: pointer; appearance: none; -webkit-appearance: none;
+  background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2322346f' stroke-width='1.6'%3E%3Cpath d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E") no-repeat right 14px center;
 }
-.calc__field select:focus { border-color: var(--sun); box-shadow: 0 0 0 4px var(--sun-soft); }
+.calc__field select:focus, .calc__field input:focus { border-color: var(--sun); box-shadow: 0 0 0 4px var(--sun-soft); }
 .calc__field select:disabled { background-color: #f5f2ec; color: var(--muted); cursor: not-allowed; }
 
-.calc__result { margin-top: 25px; padding: 24px; background: var(--navy-2); color: var(--white); border-radius: 12px; text-align: center; }
-.calc__label { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
-.calc__total { font-size: 1.9rem; font-weight: 700; color: #f6c46e; }
-.calc__breakdown { margin-top: 18px; text-align: left; border-top: 1px solid rgba(255, 255, 255, .14); }
-.calc__breakdown div { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, .14); font-size: .92rem; }
-.calc__breakdown dt { color: rgba(255, 255, 255, .7); }
-.calc__breakdown dd { font-weight: 600; text-align: right; }
-.calc__breakdown .is-total { border-bottom: 0; padding-bottom: 0; }
-.calc__breakdown .is-total dt, .calc__breakdown .is-total dd { color: #f6c46e; }
-.calc__breakdown small { display: block; font-weight: 500; font-size: .78rem; color: rgba(255, 255, 255, .55); }
-.calc__none { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, .14); font-size: .9rem; line-height: 1.55; color: rgba(255, 255, 255, .8); }
-.calc__none strong { color: var(--white); }
-.calc__none a { display: inline-block; margin-top: 10px; padding: 8px 16px; border-radius: 999px; background: var(--sun); color: var(--navy-2); font-weight: 600; }
-.calc__note { font-size: .85rem; color: var(--muted); text-align: center; margin-top: 16px; }
+.slider { margin-bottom: 18px; }
+.slider label { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: .9rem; font-weight: 500; margin-bottom: 8px; }
+.slider output { font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; }
+.slider input { width: 100%; accent-color: var(--navy); cursor: pointer; }
+.slider--hero { margin: 24px 0 4px; padding-top: 22px; border-top: 1px solid var(--line); }
+.slider--hero label { font-size: 1rem; font-weight: 600; }
+.slider--hero output { font-size: 1.25rem; }
+.slider--hero input { height: 28px; }
+.slider__scale { display: flex; justify-content: space-between; font-size: .75rem; color: var(--muted); margin-top: 2px; }
+
+/* ---------- Results ---------- */
+.roi__results { position: sticky; top: 20px; }
+.calc__none { margin-bottom: 20px; padding: 16px 18px; border-radius: 10px; background: var(--sun-soft); font-size: .92rem; line-height: 1.55; }
+.calc__none a { display: inline-block; margin-top: 8px; padding: 7px 14px; border-radius: 999px; background: var(--navy); color: var(--white); font-weight: 600; font-size: .86rem; }
+
+.hero-stat { background: var(--navy-2); color: var(--white); border-radius: 12px; padding: 24px 26px; }
+.hero-stat__label { font-size: .95rem; color: rgba(255, 255, 255, .78); }
+.hero-stat__value { font-size: clamp(2.2rem, 1.6rem + 2vw, 3rem); font-weight: 700; line-height: 1.15; color: #f6c46e; margin: 4px 0; font-variant-numeric: tabular-nums; }
+.hero-stat__sub { font-size: .9rem; color: rgba(255, 255, 255, .7); }
+
+.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+.tile { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.tile__label { font-size: .8rem; color: var(--muted); margin-bottom: 2px; }
+.tile__value { font-size: 1.35rem; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.roi__results:not(.is-empty):not(.is-loss) .tile:first-child .tile__value { color: var(--good); }
+.roi__results.is-loss .tile__value { color: var(--bad); }
+
+.chart { margin-top: 24px; }
+.chart__head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.chart__head .card__title { margin: 0; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: .82rem; color: var(--ink-2); }
+.legend li { display: inline-flex; align-items: center; gap: 6px; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; }
+.sw--land { background: var(--land); }
+.sw--villa { background: var(--villa); }
+.sw--line { width: 14px; height: 0; border-top: 2px dashed var(--ink-2); border-radius: 0; }
+
+.chart__plot { position: relative; }
+.chart__plot svg { width: 100%; height: auto; overflow: visible; }
+.chart__plot .grid { stroke: #ece8df; stroke-width: 1; }
+.chart__plot .tick { font-size: 11px; fill: var(--muted); font-family: var(--sans); }
+.chart__plot .bar-land { fill: var(--land); }
+.chart__plot .bar-villa { fill: var(--villa); }
+.chart__plot .invest { stroke: var(--ink-2); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.chart__plot .invest-label { font-size: 11px; font-weight: 600; fill: var(--ink-2); font-family: var(--sans); paint-order: stroke; stroke: var(--white); stroke-width: 4px; }
+.chart__plot .hit { fill: transparent; cursor: default; }
+.chart__plot .hit.is-hover { fill: rgba(34, 52, 111, .06); }
+.roi-tip {
+  position: absolute; top: 0; transform: translateX(-50%); pointer-events: none;
+  display: grid; gap: 2px; min-width: 140px; padding: 10px 12px;
+  background: var(--white); border: 1px solid var(--line); border-radius: 10px;
+  box-shadow: 0 10px 24px -12px rgba(0, 0, 0, .3); font-size: .8rem; color: var(--ink-2);
+}
+.roi-tip strong { color: var(--ink); font-size: .85rem; }
+.roi-tip span { display: flex; align-items: center; gap: 6px; }
+.roi-tip .tip-total { margin-top: 2px; padding-top: 4px; border-top: 1px solid var(--line); font-weight: 700; color: var(--ink); }
+
+.chart__table { margin-top: 8px; font-size: .85rem; }
+.chart__table summary { cursor: pointer; color: var(--navy); font-weight: 600; width: fit-content; }
+.chart__table table { width: 100%; margin-top: 10px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.chart__table th, .chart__table td { padding: 7px 8px; text-align: right; border-bottom: 1px solid var(--line); }
+.chart__table th:first-child, .chart__table td:first-child { text-align: left; }
+.chart__table th { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+
+.breakdown { margin-top: 24px; border-top: 1px solid var(--line); }
+.breakdown div { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: .93rem; }
+.breakdown dt { color: var(--ink-2); }
+.breakdown dd { font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+.breakdown .is-strong dt, .breakdown .is-strong dd { color: var(--ink); font-weight: 700; }
+.breakdown .is-accent { border-bottom: 0; }
+.breakdown .is-accent dd { color: var(--good); }
+.roi__results.is-loss .breakdown .is-accent dd { color: var(--bad); }
+
+.roi__results.is-empty .chart, .roi__results.is-empty .breakdown { display: none; }
+
+.calc__note { font-size: .8rem; color: var(--muted); margin-top: 18px; line-height: 1.55; }
 
 /* ---------- Footer ---------- */
 .footer { background: var(--navy-2); color: rgba(255, 255, 255, .65); font-size: .92rem; }
@@ -95,14 +168,20 @@ select { font: inherit; color: inherit; }
 .wa-float svg { width: 27px; height: 27px; fill: currentColor; }
 
 /* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .roi { grid-template-columns: 1fr; }
+  .roi__results { position: static; }
+}
+
 @media (max-width: 600px) {
   .container { width: calc(100% - 32px); }
   .header__inner { height: 66px; }
   .header__logo img { height: 36px; }
   .header__call span { display: none; }
   .header__call { width: 44px; padding: 0; justify-content: center; }
-  .calc { padding: 22px 18px; }
-  .calc__title { font-size: 1.7rem; }
-  .calc__total { font-size: 1.6rem; }
+  .card { padding: 20px 16px; }
+  .tiles { grid-template-columns: 1fr; }
+  .tile { display: flex; justify-content: space-between; align-items: baseline; }
+  .breakdown div { font-size: .88rem; }
   .footer__inner { flex-direction: column; gap: 18px; }
 }

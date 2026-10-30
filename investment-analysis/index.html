@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>25-Year Villa Investment Analysis</title>
+  <meta name="description" content="A 25-year, three-scenario investment model for a ₹1.40 crore villa near Siddhar Kovil Road, Salem, with every assumption editable and sourced.">
+  <link rel="stylesheet" href="style.css">
+  <script src="data.js" defer></script>
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+  <header class="top">
+    <div class="wrap top__inner">
+      <div>
+        <p class="eyebrow">Independent analysis · not financial or tax advice</p>
+        <h1>Naaval Sunshine villa: 25-year investment analysis</h1>
+        <p class="top__sub">₹1.40 crore · 100% self-funded · 2026 to 2051 · Siddhar Kovil Road / Murungapatti, Salem</p>
+        <p class="print-meta" id="printMeta"></p>
+      </div>
+      <div class="top__actions">
+        <button type="button" class="btn btn--primary js-pdf" title="Opens your browser's print dialog. Choose Save as PDF.">Download PDF</button>
+        <button type="button" class="btn btn--ghost" id="themeBtn" aria-label="Switch between light and dark colours">Light / dark</button>
+        <button type="button" class="btn btn--ghost" id="resetBtn">Reset assumptions</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="controls" aria-label="View options">
+    <div class="wrap controls__inner">
+      <fieldset class="seg" id="scenarioSeg">
+        <legend>Scenario</legend>
+        <label><input type="radio" name="scenario" value="0"><span>Conservative</span></label>
+        <label><input type="radio" name="scenario" value="1" checked><span>Moderate</span></label>
+        <label><input type="radio" name="scenario" value="2"><span>Optimistic</span></label>
+      </fieldset>
+      <div class="range">
+        <label for="holdRange">Sell after <output id="holdOut">25 years</output></label>
+        <input type="range" id="holdRange" min="3" max="25" step="1" value="25">
+      </div>
+      <fieldset class="seg" id="basisSeg">
+        <legend>Money shown in</legend>
+        <label><input type="radio" name="basis" value="real" checked><span>Today's rupees</span></label>
+        <label><input type="radio" name="basis" value="nominal"><span>Future rupees</span></label>
+      </fieldset>
+      <button type="button" class="btn btn--ghost js-pdf" title="Opens your browser's print dialog. Choose Save as PDF.">Download PDF</button>
+      <a class="controls__link" href="#assumptions">Edit assumptions</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <section id="verdict" aria-labelledby="verdictTitle">
+      <p class="eyebrow">The question</p>
+      <h2 id="verdictTitle">Is it worth buying the ₹1.40 crore villa and holding it for 25 years?</h2>
+      <div id="verdictBody"></div>
+    </section>
+
+    <section id="summary" aria-labelledby="summaryTitle">
+      <h2 id="summaryTitle">Final investment summary</h2>
+      <p class="lead" id="summaryLead"></p>
+      <div id="summaryBody"></div>
+    </section>
+
+    <section id="charts" aria-labelledby="chartsTitle">
+      <h2 id="chartsTitle">How the value and the money move</h2>
+      <div id="chartsBody"></div>
+    </section>
+
+    <section id="projections" aria-labelledby="projTitle">
+      <h2 id="projTitle">Annual projections, 2026 to 2051</h2>
+      <p class="lead" id="projLead"></p>
+      <div class="table-tools"><button type="button" class="btn btn--ghost" id="csvBtn">Download as CSV</button></div>
+      <div id="projBody"></div>
+    </section>
+
+    <section id="sensitivity" aria-labelledby="sensTitle">
+      <h2 id="sensTitle">What would change the answer</h2>
+      <div id="sensBody"></div>
+    </section>
+
+    <section id="assumptions" aria-labelledby="assumeTitle">
+      <h2 id="assumeTitle">Assumptions, evidence and sources</h2>
+      <p class="lead">Every number the model uses is below and editable. Each is labelled by how well it is supported. Anything marked <strong>Judgement</strong> had no local data behind it, so replace it with your own.</p>
+      <div id="assumeBody"></div>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p>This is a modelling tool, not financial, legal or tax advice. Projections depend entirely on the assumptions above, many of which could not be verified for this micro-market. No registered transaction prices were available. Property values can fall. Confirm tax treatment with a chartered accountant and the site, approvals, area and charges with the developer, the sub-registrar and the TNRERA portal.</p>
+    </div>
+  </footer>
+
+  <div id="tip" class="tip" role="status" hidden></div>
+</body>
+</html>

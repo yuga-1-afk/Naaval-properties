@@ -11,10 +11,6 @@
     // Leave empty to run in demo mode: leads are only logged to the console and the
     // calculator uses the built-in list below.
     endpoint: 'https://script.google.com/macros/s/AKfycbzvpRlZFKbqC-03a5KmPN4FCQfz65XZP6CaLiiStQ1BVcCxqQhVlwihDa3fX9pW5D3w/exec',
-    files: {
-      brochure: 'assets/docs/brochure.pdf',
-      floorplans: 'assets/docs/floor-plans.pdf',
-    },
     // Cost calculator. Charges are indicative Tamil Nadu rates — confirm with the
     // Naaval sales / legal team before going live. When the sheet is connected, its
     // "Calculator" and "Settings" tabs replace these values.
@@ -22,6 +18,17 @@
       stampDuty: 0.07,
       registration: 0.02,
       defaults: ['Salem', 'Siddhar Kovil Road', 'Naaval Sunshine'],
+      // ROI calculator starting assumptions (visitors can change them with the sliders).
+      // The sheet's "Settings" tab overrides these when connected.
+      roi: {
+        years: 10,         // holding period
+        landShare: 40,     // % of the villa price that is land
+        landGrowth: 8,     // land appreciation, % per year
+        villaGrowth: 3,    // villa (building) appreciation, % per year
+        rent: 30000,       // monthly rent, ₹
+        rentGrowth: 5,     // rent increase, % per year
+        maintenance: 36000, // maintenance & upkeep, ₹ per year
+      },
       // [City, Area, Project, Villa Configuration, Price in ₹]
       // A row with only City (and Area) lists that place even if it has no project yet.
       rows: [
@@ -225,37 +232,24 @@
   });
 
   /* ---------------------------------------------------------------
-     Brochure / floor plan requests (short form in a dialog, then download)
+     Brochure / floor plan requests (short form in a dialog;
+     the team sends the file on WhatsApp)
      --------------------------------------------------------------- */
   const gate = $('#gate');
   const gateForm = gate && $('form[data-lead-form]', gate);
-  let pendingFile = null;
 
   $$('[data-gate]').forEach((trigger) => {
     trigger.addEventListener('click', (e) => {
-      const key = trigger.dataset.gate;
-      if (!gate || typeof gate.showModal !== 'function') return; // falls back to the link's href
       e.preventDefault();
-      pendingFile = CONFIG.files[key];
+      if (!gate || typeof gate.showModal !== 'function') return;
       resetForm(gateForm);
       $('[data-gate-title]', gate).textContent = trigger.dataset.gateTitle || 'Download Brochure';
-      gateForm.elements.interest.value = key;
+      gateForm.elements.interest.value = trigger.dataset.gate;
       gate.showModal();
     });
   });
 
-  if (gate) {
-    gate.addEventListener('click', (e) => { if (e.target === gate) gate.close(); });
-    gateForm.addEventListener('lead:sent', () => {
-      if (!pendingFile) return;
-      const a = document.createElement('a');
-      a.href = pendingFile;
-      a.download = '';
-      document.body.append(a);
-      a.click();
-      a.remove();
-    });
-  }
+  if (gate) gate.addEventListener('click', (e) => { if (e.target === gate) gate.close(); });
 
   /* ---------------------------------------------------------------
      Cost calculator  ([data-calc])
@@ -287,7 +281,192 @@
     rows: toRows(CONFIG.calculator.rows),
     stampDuty: CONFIG.calculator.stampDuty,
     registration: CONFIG.calculator.registration,
+    roi: { ...CONFIG.calculator.roi },
   };
+
+  // Sheet "Settings" names → ROI assumption keys.
+  const ROI_SETTINGS = {
+    'Holding Period (years)': 'years',
+    'Land Share %': 'landShare',
+    'Land Appreciation %': 'landGrowth',
+    'Villa Appreciation %': 'villaGrowth',
+    'Monthly Rent (₹)': 'rent',
+    'Rent Increase %': 'rentGrowth',
+    'Annual Maintenance (₹)': 'maintenance',
+  };
+
+  const short = (n) => {
+    const sign = n < 0 ? '−' : '';
+    const a = Math.abs(n);
+    if (a >= 1e7) return `${sign}₹${(a / 1e7).toFixed(2)} Cr`;
+    if (a >= 1e5) return `${sign}₹${(a / 1e5).toFixed(1)} L`;
+    return `${sign}${inr(a)}`;
+  };
+  const pct = (x) => `${x < 0 ? '−' : ''}${Math.abs(x * 100).toFixed(1)}%`;
+
+  /* ROI: land and villa appreciate separately, plus rent, minus upkeep. */
+  function setupRoi(calc) {
+    const inputs = {};
+    $$('[data-roi-input]', calc).forEach((el) => { inputs[el.dataset.roiInput] = el; });
+    const results = $('[data-roi-results]', calc);
+    const chartBox = $('[data-roi-chart]', calc);
+    const tableBody = $('[data-roi-table]', calc);
+    const set = (key, text) => $$(`[data-roi-out="${key}"]`, calc).forEach((el) => { el.textContent = text; });
+    // Assumptions without a control on the page use the fixed values (Settings tab).
+    const val = (key) => Number(inputs[key] ? inputs[key].value : calcData.roi[key]) || 0;
+    let price = null;
+
+    const showInputs = () => {
+      $$('[data-roi-show]', calc).forEach((el) => {
+        const input = inputs[el.dataset.roiShow];
+        el.textContent = `${input.value}${input.dataset.suffix || ''}`;
+      });
+    };
+
+    const applyDefaults = () => {
+      Object.entries(calcData.roi).forEach(([k, v]) => { if (inputs[k]) inputs[k].value = v; });
+      showInputs();
+    };
+
+    let lastDraw = null;
+    const draw = (series, invest) => {
+      lastDraw = [series, invest];
+      // Draw at the box's real width so text stays at its true size on phones.
+      const W = Math.max(280, Math.round(chartBox.clientWidth || 560));
+      const H = W < 420 ? 220 : 250;
+      const m = { t: 16, r: 8, b: 28, l: 58 };
+      const top = Math.max(invest, ...series.map((s) => s.land + s.villa));
+      const rawStep = top / 4;
+      const mag = 10 ** Math.floor(Math.log10(rawStep));
+      const step = [1, 2, 2.5, 5, 10].map((k) => k * mag).find((s) => s >= rawStep);
+      const max = Math.ceil(top / step) * step;
+      const y = (v) => m.t + (H - m.t - m.b) * (1 - v / max);
+      const slot = (W - m.l - m.r) / series.length;
+      const bw = Math.max(4, Math.min(28, slot * 0.6));
+      const fit = Math.floor((W - m.l - m.r) / 34); // x labels that fit without colliding
+      const every = [1, 2, 3, 5].find((k) => Math.ceil(series.length / k) <= fit) || 5;
+      const r = Math.min(4, bw / 2);
+
+      let svg = '';
+      for (let v = 0; v <= max + 1; v += step) {
+        svg += `<line class="grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>`
+          + `<text class="tick" x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end">${v ? short(v).replace('.00', '') : '₹0'}</text>`;
+      }
+      series.forEach((s, i) => {
+        const cx = m.l + slot * i + slot / 2;
+        const x = cx - bw / 2;
+        const yl = y(s.land);
+        const yt = y(s.land + s.villa);
+        const vTop = yt; const vBot = yl - 2;
+        svg += `<rect class="bar-land" x="${x}" y="${yl}" width="${bw}" height="${y(0) - yl}"/>`;
+        if (vBot - vTop > 0) {
+          svg += `<path class="bar-villa" d="M${x},${vBot} V${vTop + r} Q${x},${vTop} ${x + r},${vTop} H${x + bw - r} Q${x + bw},${vTop} ${x + bw},${vTop + r} V${vBot} Z"/>`;
+        }
+        if (i % every === 0 || i === series.length - 1) {
+          svg += `<text class="tick" x="${cx}" y="${H - 8}" text-anchor="middle">${i === 0 ? 'Now' : `Y${i}`}</text>`;
+        }
+        svg += `<rect class="hit" data-i="${i}" x="${m.l + slot * i}" y="${m.t}" width="${slot}" height="${H - m.t - m.b}"/>`;
+      });
+      svg += `<line class="invest" x1="${m.l}" x2="${W - m.r}" y1="${y(invest)}" y2="${y(invest)}"/>`
+        + `<text class="invest-label" x="${m.l + 6}" y="${y(invest) - 6}">Total investment ${short(invest)}</text>`;
+
+      chartBox.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Projected land and villa value by year">${svg}</svg><div class="roi-tip" hidden></div>`;
+      const tip = $('.roi-tip', chartBox);
+      $$('.hit', chartBox).forEach((hit) => {
+        hit.addEventListener('mouseenter', () => {
+          const s = series[Number(hit.dataset.i)];
+          tip.innerHTML = `<strong>${s.year === 0 ? 'Today' : `Year ${s.year}`}</strong>`
+            + `<span><i class="sw sw--land"></i>Land ${short(s.land)}</span>`
+            + `<span><i class="sw sw--villa"></i>Villa ${short(s.villa)}</span>`
+            + `<span class="tip-total">Total ${short(s.land + s.villa)}</span>`;
+          tip.hidden = false;
+          const box = chartBox.getBoundingClientRect();
+          const hb = hit.getBoundingClientRect();
+          const left = hb.left - box.left + hb.width / 2;
+          tip.style.left = `${Math.min(Math.max(left, 70), box.width - 70)}px`;
+          hit.classList.add('is-hover');
+        });
+        hit.addEventListener('mouseleave', () => { tip.hidden = true; hit.classList.remove('is-hover'); });
+      });
+    };
+
+    const compute = () => {
+      showInputs();
+      results.classList.toggle('is-empty', !price);
+      if (!price) {
+        ['future', 'invest', 'net', 'roi', 'annual'].forEach((k) => set(k, '—'));
+        chartBox.innerHTML = '';
+        tableBody.innerHTML = '';
+        return;
+      }
+      const p = price;
+      const n = Math.max(1, Math.round(val('years')));
+      const ls = val('landShare') / 100;
+      const lg = val('landGrowth') / 100;
+      const vg = val('villaGrowth') / 100;
+      const rg = val('rentGrowth') / 100;
+      const rent = val('rent');
+      const maint = val('maintenance');
+      const stamp = p * calcData.stampDuty;
+      const reg = p * calcData.registration;
+      const invest = p + stamp + reg;
+
+      const series = [];
+      let rentTotal = 0;
+      for (let yr = 0; yr <= n; yr += 1) {
+        series.push({ year: yr, land: p * ls * (1 + lg) ** yr, villa: p * (1 - ls) * (1 + vg) ** yr });
+        if (yr > 0) rentTotal += rent * 12 * (1 + rg) ** (yr - 1);
+      }
+      const maintTotal = maint * n;
+      const end = series[n];
+      const future = end.land + end.villa;
+      const net = future + rentTotal - maintTotal - invest;
+      const back = invest + net;
+      const annual = back > 0 ? (back / invest) ** (1 / n) - 1 : -1;
+
+      set('years', String(n));
+      set('future', short(future));
+      set('invest', short(invest));
+      set('net', short(net));
+      set('roi', pct(net / invest));
+      set('annual', `${pct(annual)} / yr`);
+      set('price', inr(p));
+      set('stampPct', `${+(calcData.stampDuty * 100).toFixed(2)}%`);
+      set('regPct', `${+(calcData.registration * 100).toFixed(2)}%`);
+      set('stamp', inr(stamp));
+      set('reg', inr(reg));
+      set('investFull', inr(invest));
+      set('landNow', short(series[0].land));
+      set('landFuture', short(end.land));
+      set('villaNow', short(series[0].villa));
+      set('villaFuture', short(end.villa));
+      set('gain', short(future - invest));
+      set('rentTotal', short(rentTotal));
+      set('maintTotal', `−${short(maintTotal)}`);
+      set('netFull', short(net));
+      set('assumptions', `land ${val('landShare')}% of price, appreciating ${val('landGrowth')}% a year; `
+        + `villa appreciating ${val('villaGrowth')}% a year; `
+        + (rent ? `rent ${inr(rent)} a month, rising ${val('rentGrowth')}% a year; ` : 'no rental income; ')
+        + `maintenance ${inr(maint)} a year.`);
+      results.classList.toggle('is-loss', net < 0);
+
+      draw(series, invest);
+      tableBody.innerHTML = series.map((s) => `<tr><td>${s.year === 0 ? 'Today' : `Year ${s.year}`}</td>`
+        + `<td>${short(s.land)}</td><td>${short(s.villa)}</td><td>${short(s.land + s.villa)}</td></tr>`).join('');
+    };
+
+    Object.values(inputs).forEach((el) => el.addEventListener('input', compute));
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => { if (lastDraw && price) draw(...lastDraw); }, 150);
+    });
+    applyDefaults();
+    return {
+      update: (p) => { price = p; compute(); },
+      reset: () => { applyDefaults(); compute(); },
+    };
+  }
 
   const escapeHtml = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -299,11 +478,16 @@
     const config = step('config');
     const total = $('[data-calc-total]', calc);
     const breakdown = $('[data-calc-breakdown]', calc);
-    const none = document.createElement('p');
-    none.className = 'calc__none';
-    none.hidden = true;
-    none.innerHTML = 'There is no Naaval project in this location yet. Our nearest is <strong>Naaval Sunshine, Siddhar Kovil Road, Salem</strong>. <a href="tel:+919585521999">Call +91 95855 21999</a>';
-    breakdown.after(none);
+    const roi = $('[data-roi-results]', calc) ? setupRoi(calc) : null;
+    calc.roi = roi;
+    let none = $('[data-calc-none]', calc);
+    if (!none) {
+      none = document.createElement('p');
+      none.className = 'calc__none';
+      none.hidden = true;
+      none.innerHTML = 'There is no Naaval project in this location yet. Our nearest is <strong>Naaval Sunshine, Siddhar Kovil Road, Salem</strong>. <a href="tel:+919585521999">Call +91 95855 21999</a>';
+      breakdown.after(none);
+    }
 
     const unique = (list) => [...new Set(list.filter(Boolean))];
     const fill = (select, values, placeholder, emptyLabel) => {
@@ -321,6 +505,10 @@
       const r = config.value !== '' ? calcData.rows[Number(config.value)] : null;
       const locked = calc.classList.contains('is-locked');
       none.hidden = locked || !city.value || area.dataset.empty !== '1' && !area.value || project.dataset.empty !== '1';
+      if (roi) {
+        roi.update(r && !locked ? r.price : null);
+        return;
+      }
       if (!r || locked) {
         total.textContent = '00,00,000';
         breakdown.hidden = true;
@@ -403,7 +591,12 @@
         calcData.rows = rows;
         if (typeof data.stampDuty === 'number') calcData.stampDuty = data.stampDuty;
         if (typeof data.registration === 'number') calcData.registration = data.registration;
-        calcs.forEach((c) => c.rebuild(true));
+        Object.entries(data.settings || {}).forEach(([name, value]) => {
+          const key = ROI_SETTINGS[name];
+          const num = Number(String(value).replace(/[^\d.]/g, ''));
+          if (key && value !== '' && !Number.isNaN(num)) calcData.roi[key] = num;
+        });
+        calcs.forEach((c) => { if (c.roi) c.roi.reset(); c.rebuild(true); });
       })
       .catch((err) => console.warn('[Naaval Sunshine] Using built-in calculator data:', err));
   }
