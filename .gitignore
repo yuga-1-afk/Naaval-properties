@@ -1,0 +1,8 @@
+# Working notes, not part of the website
+ASSETS.md
+google-sheet/
+
+# Editor and OS files
+.vscode/
+.DS_Store
+Thumbs.db

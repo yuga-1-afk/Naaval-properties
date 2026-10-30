@@ -25,6 +25,11 @@ const LEAD_COLUMNS = {
   villaPreference: 'Villa Preference',
   interest: 'Interest',
   consent: 'Consent',
+  project: 'Project',
+  villaType: 'Villa Type',
+  holdYears: 'Hold (years)',
+  estimatedValue: 'Estimated Value (Rs)',
+  estimatedProfit: 'Estimated Profit (Rs)',
   page: 'Page',
   url: 'Page URL',
   utm_source: 'utm_source',
@@ -43,6 +48,7 @@ const FORM_NAMES = {
   brochure: 'Brochure request',
   download: 'Brochure / floor plans',
   calculator: 'Cost calculator',
+  'roi-pdf': 'ROI estimate PDF',
 };
 
 const CALC_HEADERS = ['City', 'Area', 'Project', 'Villa Configuration', 'Price (₹)'];

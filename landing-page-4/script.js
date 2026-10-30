@@ -397,6 +397,7 @@
         ['future', 'invest', 'net', 'roi', 'annual'].forEach((k) => set(k, '—'));
         chartBox.innerHTML = '';
         tableBody.innerHTML = '';
+        calc.roiResult = null;
         return;
       }
       const p = price;
@@ -449,6 +450,12 @@
         + (rent ? `rent ${inr(rent)} a month, rising ${val('rentGrowth')}% a year; ` : 'no rental income; ')
         + `maintenance ${inr(maint)} a year.`);
       results.classList.toggle('is-loss', net < 0);
+      // Latest figures, read by the PDF download on the calculator page.
+      calc.roiResult = {
+        years: n, price: p, stamp, reg, invest, future, net, roi: net / invest, annual, rentTotal, maintTotal,
+        stampPct: calcData.stampDuty, regPct: calcData.registration, series,
+        assumptions: $('[data-roi-out="assumptions"]', calc)?.textContent || '',
+      };
 
       draw(series, invest);
       tableBody.innerHTML = series.map((s) => `<tr><td>${s.year === 0 ? 'Today' : `Year ${s.year}`}</td>`

@@ -154,6 +154,41 @@ select, input { font: inherit; color: inherit; }
 
 .calc__note { font-size: .8rem; color: var(--muted); margin-top: 18px; line-height: 1.55; }
 
+/* ---------- PDF download + lead form ---------- */
+.pdf-cta {
+  display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+  margin-top: 14px; height: 50px; border: 0; border-radius: 12px; cursor: pointer;
+  background: var(--sun); color: var(--navy-2); font: 600 .95rem/1 var(--sans); transition: background .2s;
+}
+.pdf-cta:hover { background: #f3b553; }
+.pdf-cta svg { width: 18px; height: 18px; }
+.roi__results.is-empty .pdf-cta { display: none; }
+
+.gate { width: min(440px, 100% - 32px); padding: 36px 32px 28px; border: 0; border-radius: 16px; background: var(--white); color: var(--ink); box-shadow: 0 30px 70px -20px rgba(0, 0, 0, .45); }
+.gate::backdrop { background: rgba(16, 24, 52, .6); }
+.gate__close { position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 50%; background: var(--cream); color: var(--navy); cursor: pointer; }
+.gate__close svg { width: 18px; height: 18px; }
+.gate__title { font: 400 1.7rem/1.15 var(--serif); color: var(--navy-2); margin-bottom: 6px; padding-right: 36px; }
+.gate__text { color: var(--muted); font-size: .92rem; margin-bottom: 20px; }
+.gate__fine { font-size: .76rem; color: var(--muted); margin-top: 10px; text-align: center; }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: .85rem; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+.field .optional { font-weight: 400; color: var(--muted); }
+.field input { width: 100%; height: 48px; padding: 0 14px; border: 1px solid #d7d2c6; border-radius: 10px; outline: none; background: var(--cream); font: inherit; transition: border-color .2s, box-shadow .2s; }
+.field input:focus { border-color: var(--sun); background: var(--white); box-shadow: 0 0 0 4px var(--sun-soft); }
+.field.has-error input { border-color: #c0392b; }
+.field__error { display: block; font-size: .78rem; color: #c0392b; margin-top: 4px; }
+.btn-sun { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 52px; margin-top: 6px; border: 0; border-radius: 999px; background: var(--sun); color: var(--navy-2); font: 600 1rem/1 var(--sans); cursor: pointer; }
+.btn-sun:hover { background: #f3b553; }
+.btn-sun:disabled { opacity: .7; cursor: progress; }
+.btn-sun svg { width: 18px; height: 18px; }
+.form-status { font-size: .85rem; color: #c0392b; margin-top: 10px; }
+.form-status:empty { display: none; }
+.form-success { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: 12px; background: var(--sun-soft); outline: none; }
+.form-success svg { flex: none; width: 22px; height: 22px; color: #a96a10; }
+form.is-sent > :not([data-success]) { display: none; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+
 /* ---------- Footer ---------- */
 .footer { background: var(--navy-2); color: rgba(255, 255, 255, .65); font-size: .92rem; }
 .footer__inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 32px; flex-wrap: wrap; padding: 40px 0 28px; }
